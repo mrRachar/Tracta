@@ -56,11 +56,16 @@ class Beam(Widget):
     def angle(self):
         return self.vector.angle
 
+    @property
+    def angle_width(self):
+        offset = (self.target - self.base).rotate(-90).fit_unit_circle() * self.bredth
+        return abs((self.vector + offset).angle - self.vector.angle)
+
     def hits(self, debris):
         hits = 0
         for point in debris.points:
             displacement = point - self.base
-            if self.angle - 20 < displacement.angle < self.angle + 20 \
+            if self.angle - self.angle_width < displacement.angle < self.angle + self.angle_width \
                     and displacement.length < self.radius:
                 hits += 1
         return hits / len(list(debris.points))
