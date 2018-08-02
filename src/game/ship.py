@@ -5,8 +5,8 @@ from kivy.uix.widget import Widget
 from kivy.properties import NumericProperty
 from kivy.graphics.vertex_instructions import Triangle
 
-from src.geometry import Point, Velocity, Vector, Momentum, Displacement
-from src.space import SpaceObject, Debris
+from lib.geometry import Point, Velocity, Vector, Momentum, Displacement
+from src.game.space import SpaceObject, Debris
 
 
 class Beam(Widget):
@@ -119,8 +119,8 @@ class Ship(SpaceObject):
 
     @property
     def radius(self):
-        return sum(self.size) // 2.5
+        return sum(self.size) // 4 #2.5
 
     @property
     def middle(self):
-        return Point(self.center_x+28, self.center_y+28)
+        return Point(self.center_x, self.center_y)

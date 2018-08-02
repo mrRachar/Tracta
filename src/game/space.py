@@ -2,7 +2,7 @@ from kivy.animation import Animation
 from kivy.uix.widget import Widget
 from kivy.properties import NumericProperty, ColorProperty
 
-from src.geometry import Point, Velocity, Vector, Momentum, Displacement
+from lib.geometry import Point, Velocity, Vector, Momentum, Displacement
 
 
 class SpaceObject(Widget):

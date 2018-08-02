@@ -1,12 +1,11 @@
 import random
 
-from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.uix.widget import Widget
 from kivy.properties import ObjectProperty
 
-from src.geometry import Point, Velocity, collision_velocity
-from src.space import Debris
+from lib.geometry import Point, collision_velocity
+from src.game.space import Debris
 
 
 class TractaGame(Widget):
@@ -16,7 +15,8 @@ class TractaGame(Widget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.size = Window.size
-        self.add_debris(Debris(Point.random(x_range=(0, self.width), y_range=(self.height * 3/4, self.height * 5/6))))
+        self.ship.image.texture.mag_filter = 'nearest'
+        self.add_debris(Debris(Point.random(x_range=(0, self.width), y_range=(self.height * 4/5, self.height))))
         #self.debris[0].highlight()
         for x_range in ((0, self.width * 1/3), (self.width * 2/3, self.width)):
             for _ in range(2):

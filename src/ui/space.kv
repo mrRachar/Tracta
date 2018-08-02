@@ -1,0 +1,16 @@
+#:kivy 1.10.1
+
+<Debris>:
+    size: self.size
+    pos: self.pos
+    canvas.before:
+        PushMatrix
+        Rotate:
+            angle: self.rotation
+            origin: self.center
+    canvas:
+        Color:
+            rgba: self.colour
+        Triangle:
+            points: self.center_x + self.size//2, self.center_y - self.size*0.414, self.center_x - self.size//2, self.center_y - self.size*0.414, self.center_x, self.center_y + self.size//2,
+        PopMatrix
