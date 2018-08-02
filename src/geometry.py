@@ -1,21 +1,21 @@
 import random
 import math as maths
 from numbers import Number
-from typing import NamedTuple, Iterable
+from typing import NamedTuple, Iterable, Tuple
 from abc import ABC
 
 
 def atan(q):
     return maths.degrees(maths.atan(q))
 
-def tan(q):
-    return maths.tan(maths.radians(q))
+def tan(theta):
+    return maths.tan(maths.radians(theta))
 
-def cos(q):
-    return maths.cos(maths.radians(q))
+def cos(theta):
+    return maths.cos(maths.radians(theta))
 
-def sin(q):
-    return maths.sin(maths.radians(q))
+def sin(theta):
+    return maths.sin(maths.radians(theta))
 
 def bearing(x, y):
     if y == 0:
@@ -26,6 +26,9 @@ def bearing(x, y):
     if angle < 0:
         angle += 360
     return angle
+
+def collision_velocity(m_1, m_2, v_1, v_2):
+    return v_1 * ((m_1-m_2)/(m_1+m_2)) + v_2 * (2*m_2/(m_1+m_2))
 
 
 class Vector:
@@ -74,11 +77,11 @@ class Vector:
 
     def __mul__(self, other):
         if isinstance(other, Number):
-            return Vector(self.x * other, self.y * other)
+            return self.__class__(self.x * other, self.y * other)
         elif isinstance(other, Vector):
             return self.x * other.x + self.y * other.y
         elif isinstance(other, tuple):
-            return self * Vector(*other)
+            return self * self.__class__(*other)
         else:
             raise TypeError
 
@@ -113,8 +116,8 @@ class Vector:
 
 class Point(Vector):
     @classmethod
-    def random(cls, x=None, y=None, x_to=500, y_to=500):
-        return cls(x or random.randint(0, x_to), y or random.randint(0, y_to))
+    def random(cls, x=None, y=None, x_range: Tuple[Number, Number]=(0, 500), y_range: Tuple[int, int]=(0, 500)):
+        return cls(x or random.randint(maths.ceil(x_range[0]), x_range[1] // 1), y or random.randint(maths.ceil(y_range[0]), y_range[1] // 1))
 
     def rotate_about(self, point: Vector, angle):
         return (self-point).rotate(angle) + point

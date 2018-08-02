@@ -1,3 +1,4 @@
+from kivy.animation import Animation
 from kivy.uix.widget import Widget
 from kivy.properties import NumericProperty, ColorProperty
 
@@ -20,15 +21,16 @@ class SpaceObject(Widget):
 class Debris(SpaceObject):
     rotation = NumericProperty(0)
     velocity = Velocity()
-    size = 100
-    mass = NumericProperty(100)
+    size = NumericProperty(100)
     default_colour = 0.6, 0.65, 1, 0.5
     colour = ColorProperty(default_colour)
+    destroyed: bool = False
 
     def __init__(self, position: Vector, rotation: int = 0, size: int = 100, **kwargs):
         super().__init__(**kwargs)
         self.center = tuple(position)
         self.rotation = rotation
+        self.size = size
 
     def highlight(self, colour=(0.8, 0.9, 1, 0.6)):
         self.colour = colour
@@ -44,11 +46,20 @@ class Debris(SpaceObject):
     def position(self, pos: Point):
         self.center_x, self.center_y = pos
 
+    @property
+    def mass(self):
+        return self.size
+
     def move(self, dt=1, ds=0) -> Displacement:
         displacement = self.velocity.to_displacement(dt)
         self.center_x += displacement.x
         self.center_y += displacement.y - ds
         return displacement
+
+    def destruct(self, t=0.2):
+        self.destroyed = True
+        anim = Animation(a=0, duration=t)
+        anim.start(self.canvas.children[1])
 
     @property
     def points(self):

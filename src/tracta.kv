@@ -30,7 +30,7 @@
         Color:
             rgba: self.colour
         Triangle:
-            points: self.center_x + self.size//2, self.center_y - self.size*0.45, self.center_x - self.size//2, self.center_y - self.size*0.45, self.center_x, self.center_y + self.size//2,
+            points: self.center_x + self.size//2, self.center_y - self.size*0.414, self.center_x - self.size//2, self.center_y - self.size*0.414, self.center_x, self.center_y + self.size//2,
         PopMatrix
 
 <TractaGame>:
@@ -55,3 +55,10 @@
         center_x: self.parent.width / 2
         top: root.top-5
         text: format(self.parent.ship.distance/10, ".1f")
+    Label:
+        font_size: 60
+        color: 1, 0.8, 0.8, 0.8
+        font_name: "rsc/dotmatrix.ttf"
+        left: 10
+        center_y: 40
+        text: format(self.parent.ship.health, ".1f")

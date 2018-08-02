@@ -1,4 +1,4 @@
-from math import tau
+import math as maths
 
 from kivy.clock import Clock
 from kivy.uix.widget import Widget
@@ -12,7 +12,7 @@ from src.space import SpaceObject, Debris
 class Beam(Widget):
     _refresh_event = None
     bredth = 67
-    energy_coefficient = tau * 10
+    energy = maths.tau
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -42,13 +42,14 @@ class Beam(Widget):
 
     def pull(self, debris, strength=1):
         displacement = debris.position - self.base
-        momentum = Momentum.from_vector(displacement.fit_unit_circle() * strength * self.energy_coefficient)
+        p_magnitude = maths.sqrt(2*(self.parent.mass+debris.mass)*self.energy) * strength
+        momentum = Momentum.from_vector(displacement.fit_unit_circle() * p_magnitude)
         self.parent.momentum += momentum
         debris.momentum -= momentum
 
     @property
     def base(self):
-        return Point(self.center_x+28, self.center_y+28)
+        return self.parent.middle
 
     @property
     def radius(self):
@@ -96,8 +97,8 @@ class Ship(SpaceObject):
     velocity = Velocity(x=0, y=0)
     distance = NumericProperty(0)
     size = 150, 150
-    health = NumericProperty(42)
-    mass = NumericProperty(150)
+    health = NumericProperty(9)
+    mass = NumericProperty(50)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -110,3 +111,16 @@ class Ship(SpaceObject):
 
     def seek(self, x):
         self.velocity = self.velocity + Velocity((x - self.center_x)/100, 0)
+
+    def collides_with(self, debris: Debris):
+        for point in debris.points:
+            if (point - self.middle).length < self.radius:
+                return True
+
+    @property
+    def radius(self):
+        return sum(self.size) // 2.5
+
+    @property
+    def middle(self):
+        return Point(self.center_x+28, self.center_y+28)
