@@ -6,7 +6,7 @@ from kivy.properties import NumericProperty
 from kivy.graphics.vertex_instructions import Triangle
 
 from src.geometry import Point, Velocity, Vector, Momentum, Displacement
-from src.space import SpaceObject
+from src.space import SpaceObject, Debris
 
 
 class Beam(Widget):
@@ -23,7 +23,10 @@ class Beam(Widget):
         for debris in self.parent.parent.debris:
             hit_rate = self.hits(debris)
             if hit_rate:
+                debris.highlight()
                 self.pull(debris, hit_rate)
+            else:
+                debris.remove_highlight()
 
     def show(self, position: Vector):
         self.target = Point(position.x, position.y)
@@ -62,7 +65,7 @@ class Beam(Widget):
     @property
     def angle_width(self):
         offset = (self.target - self.base).rotate(-90).fit_unit_circle() * self.bredth
-        return abs((self.vector + offset).angle - self.vector.angle)
+        return ((self.vector + offset).angle - self.vector.angle) % 360 # abs didn't work because bearings
 
     def hits(self, debris):
         hits = 0
@@ -74,9 +77,12 @@ class Beam(Widget):
         return hits / len(list(debris.points))
 
     def end(self):
+        self.refresh_event.cancel()
         if self.triangle in self.canvas.children:
             self.canvas.remove(self.triangle)
-        self.refresh_event.cancel()
+
+        for debris in self.parent.parent.debris:
+            debris.remove_highlight()
 
     def poll(self, pos: Point, freq=1.0/60):
         try:

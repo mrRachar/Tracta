@@ -17,7 +17,6 @@ def cos(q):
 def sin(q):
     return maths.sin(maths.radians(q))
 
-
 def bearing(x, y):
     if y == 0:
         return ((x >= 0) - (x < 0)) * 90

@@ -1,5 +1,5 @@
 from kivy.uix.widget import Widget
-from kivy.properties import NumericProperty
+from kivy.properties import NumericProperty, ColorProperty
 
 from src.geometry import Point, Velocity, Vector, Momentum, Displacement
 
@@ -22,11 +22,19 @@ class Debris(SpaceObject):
     velocity = Velocity()
     size = 100
     mass = NumericProperty(100)
+    default_colour = 0.6, 0.65, 1, 0.5
+    colour = ColorProperty(default_colour)
 
     def __init__(self, position: Vector, rotation: int = 0, size: int = 100, **kwargs):
         super().__init__(**kwargs)
         self.center = tuple(position)
         self.rotation = rotation
+
+    def highlight(self, colour=(0.8, 0.9, 1, 0.6)):
+        self.colour = colour
+
+    def remove_highlight(self):
+        self.colour = self.default_colour
 
     @property
     def position(self):

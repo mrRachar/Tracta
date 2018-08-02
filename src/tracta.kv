@@ -28,7 +28,7 @@
             origin: self.center
     canvas:
         Color:
-            rgba: 0.6, 0.65, 1, 0.5
+            rgba: self.colour
         Triangle:
             points: self.center_x + self.size//2, self.center_y - self.size*0.45, self.center_x - self.size//2, self.center_y - self.size*0.45, self.center_x, self.center_y + self.size//2,
         PopMatrix
@@ -54,4 +54,4 @@
         font_name: "rsc/dotmatrix.ttf"
         center_x: self.parent.width / 2
         top: root.top-5
-        text: format(self.parent.ship.distance, ".1f")
+        text: format(self.parent.ship.distance/10, ".1f")
