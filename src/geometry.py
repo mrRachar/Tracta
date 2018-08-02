@@ -116,6 +116,9 @@ class Point(Vector):
     def random(cls, x=None, y=None, x_to=500, y_to=500):
         return cls(x or random.randint(0, x_to), y or random.randint(0, y_to))
 
+    def rotate_about(self, point: Vector, angle):
+        return (self-point).rotate(angle) + point
+
 
 class Velocity(Vector):
     def to_momentum(self, mass):

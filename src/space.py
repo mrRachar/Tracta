@@ -40,6 +40,10 @@ class Debris(SpaceObject):
     def position(self):
         return Point(self.center_x, self.center_y)
 
+    @position.setter
+    def position(self, pos: Point):
+        self.center_x, self.center_y = pos
+
     def move(self, dt=1, ds=0) -> Displacement:
         displacement = self.velocity.to_displacement(dt)
         self.center_x += displacement.x
@@ -48,4 +52,7 @@ class Debris(SpaceObject):
 
     @property
     def points(self):
-        return (Point(*point) for point in zip(self.canvas.children[3].points[::2], self.canvas.children[3].points[1::2]))
+        return (
+                    Point(*point).rotate_about(Point(*self.center), self.rotation)
+                    for point in zip(self.canvas.children[3].points[::2], self.canvas.children[3].points[1::2])
+        )
