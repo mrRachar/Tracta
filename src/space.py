@@ -1,7 +1,7 @@
 from kivy.uix.widget import Widget
 from kivy.properties import NumericProperty
 
-from src.geometry import Point, Velocity, Vector, Momentum
+from src.geometry import Point, Velocity, Vector, Momentum, Displacement
 
 
 class SpaceObject(Widget):
@@ -32,9 +32,11 @@ class Debris(SpaceObject):
     def position(self):
         return Point(self.center_x, self.center_y)
 
-    def move(self):
-        self.center_x += self.velocity.x
-        self.center_y += self.velocity.y
+    def move(self, dt=1, ds=0) -> Displacement:
+        displacement = self.velocity.to_displacement(dt)
+        self.center_x += displacement.x
+        self.center_y += displacement.y - ds
+        return displacement
 
     @property
     def points(self):

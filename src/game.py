@@ -7,13 +7,13 @@ from kivy.properties import ObjectProperty
 from src.geometry import Point, Velocity
 from src.space import Debris
 
+
 class TractaGame(Widget):
     ship = ObjectProperty(None)
     debris = []
 
     def __init__(self, *args, **kwargs):
-        #super().__init__(*args, **kwargs)
-        super().__init__()
+        super().__init__(*args, **kwargs)
         self.size = Window.size
         for _ in range(5):
             self.add_debris(Debris(Point.random(x_to=self.width, y_to=self.height), random.randint(0, 359)))
@@ -23,16 +23,13 @@ class TractaGame(Widget):
         self.add_widget(junk)
 
     def tick(self, dt):
-        self.ship.move()
+        _, ds = self.ship.move(dt)
+
         for debris in self.debris:
-            debris.move()
-        self.refresh_position()
+            debris.move(dt, ds)
 
         if  self.ship.x < 0 or self.ship.right > self.width:
-            self.ship.velocity = Velocity() #self.ship.velocity.flip_x()
-
-    def refresh_position(self):
-        pass
+            self.ship.velocity = self.ship.velocity.flip_x()
 
     def on_touch_down(self, touch):
         self.ship.beam.shine(touch)

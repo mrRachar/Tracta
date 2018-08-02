@@ -1,15 +1,18 @@
+from math import tau
+
 from kivy.clock import Clock
 from kivy.uix.widget import Widget
 from kivy.properties import NumericProperty
 from kivy.graphics.vertex_instructions import Triangle
 
-from src.geometry import Point, Velocity, Vector, Momentum
+from src.geometry import Point, Velocity, Vector, Momentum, Displacement
 from src.space import SpaceObject
 
 
 class Beam(Widget):
     _refresh_event = None
     bredth = 67
+    energy_coefficient = tau * 10
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -36,7 +39,7 @@ class Beam(Widget):
 
     def pull(self, debris, strength=1):
         displacement = debris.position - self.base
-        momentum = Momentum.from_vector(displacement.fit_unit_circle() * strength * 10)
+        momentum = Momentum.from_vector(displacement.fit_unit_circle() * strength * self.energy_coefficient)
         self.parent.momentum += momentum
         debris.momentum -= momentum
 
@@ -80,7 +83,7 @@ class Beam(Widget):
             self.refresh_event.cancel()
         except AttributeError:
             pass
-        self.refresh_event = Clock.schedule_interval(lambda dt: self.show(pos), freq)
+        self.refresh_event = Clock.schedule_interval(lambda dt: self.shine(pos), freq)
 
 
 class Ship(SpaceObject):
@@ -88,14 +91,16 @@ class Ship(SpaceObject):
     distance = NumericProperty(0)
     size = 150, 150
     health = NumericProperty(42)
-    mass = NumericProperty(1000)
+    mass = NumericProperty(150)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-    def move(self):
-        self.center_x += self.velocity.x
-        self.distance += self.velocity.y
+    def move(self, dt=1) -> Displacement:
+        displacement = self.velocity.to_displacement(dt)
+        self.center_x += displacement.x
+        self.distance += displacement.y
+        return displacement
 
     def seek(self, x):
         self.velocity = self.velocity + Velocity((x - self.center_x)/100, 0)

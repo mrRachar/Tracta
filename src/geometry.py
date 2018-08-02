@@ -122,13 +122,22 @@ class Velocity(Vector):
     def to_momentum(self, mass):
         return Momentum.from_vector(self * mass)
 
+    def to_displacement(self, time):
+        return Displacement.from_vector(self * time)
+
     @property
     def speed(self):
         return self.length
 
+
 class Momentum(Vector):
     def to_velocity(self, mass):
         return Velocity.from_vector(self / mass)
+
+
+class Displacement(Vector):
+    pass
+
 
 class Line:
     gradient: int
