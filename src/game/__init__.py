@@ -1,6 +1,8 @@
 import random
 
 from kivy.core.window import Window
+from kivy.clock import Clock
+from kivy.uix.screenmanager import Screen
 from kivy.uix.widget import Widget
 from kivy.properties import ObjectProperty
 
@@ -80,3 +82,15 @@ class TractaGame(Widget):
     def on_touch_up(self, touch):
         self.ship.beam.end()
         return True
+
+
+class GameScreen(Screen):
+    game = None
+
+    def start(self):
+        self.game = TractaGame()
+        self.add_widget(self.game)
+        Clock.schedule_interval(self.game.tick, 1.0/60)
+
+    def end(self):
+        self.remove_widget(self.game)

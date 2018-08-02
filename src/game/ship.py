@@ -97,7 +97,7 @@ class Ship(SpaceObject):
     velocity = Velocity(x=0, y=0)
     distance = NumericProperty(0)
     size = 150, 150
-    health = NumericProperty(9)
+    health = NumericProperty(3)
     mass = NumericProperty(50)
 
     def __init__(self, *args, **kwargs):

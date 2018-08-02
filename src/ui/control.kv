@@ -1,0 +1,39 @@
+#:kivy 1.10.1
+
+<MenuButton>:
+    color: self.font_colour
+    text: self.text
+    font_name: "rsc/dotmatrix.ttf"
+    font_size: root.height
+
+<MainMenu>:
+    play_button: play_button
+    about_button: about_button
+    canvas.before:
+        Color:
+            rgba: 0, 0.02, 0.1, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+        Color:
+            rgb: 1, 1, 1
+    BoxLayout:
+        orientation: "vertical"
+        padding: root.width / 4, root.height / 4, root.width / 4, root.height / 4
+        Label:
+            text: "Tracta"
+            font_size: root.height // 8
+            font_name: "rsc/dotmatrix.ttf"
+            padding_y: root.height // 8
+        BoxLayout:
+            orientation: "vertical"
+            MenuButton:
+                id: play_button
+                text: "PLAY"
+                command: root.on_play_clicked
+            MenuButton:
+                id: scores_button
+                text: "SCORES"
+            MenuButton:
+                id: about_button
+                text: "ABOUT"
