@@ -4,6 +4,9 @@
 <EndGame>:
     restart_button: restart_button
     menu_button: menu_button
+    name_input: name_input
+    highscore_label: highscore_label
+
     canvas.before:
         Color:
             rgba: 0, 0.02, 0.1, 1
@@ -12,21 +15,60 @@
             pos: self.pos
         Color:
             rgb: 1, 1, 1
+
     BoxLayout:
         orientation: "vertical"
-        padding: root.width / 4, root.height / 4, root.width / 4, root.height / 4
+        padding: root.width / 8, root.height / 8, root.width / 8, root.height / 8
         Label:
             text: "Game Over"
-            font_size: root.height // 8
+            font_size: root.width // 8 if root.width < root.height else root.height // 8
             font_name: "rsc/dotmatrix.ttf"
             padding_y: root.height // 8
             color: 1, 0.5, 0.5, 1
+
+        Label:
+            font_size: root.width // 6 if root.width < root.height else root.height // 6
+            text: " "
+
         Label:
             text: str(root.score)
-            font_size: root.height // 10
+            font_size: root.width // 10 if root.width < root.height else root.height // 10
             font_name: "rsc/dotmatrix.ttf"
             padding_y: root.height // 8
             color: 0.5, 1, 0.7, 1
+
+        Label:
+            id: highscore_label
+            markup: True
+            text: "High Score: " + (root.highscorer + " with " + str(root.highscore) if root.has_highscore else "[none]")
+            font_size: root.width // 20 if root.width < root.height else root.height // 20
+            font_name: "rsc/dotmatrix.ttf"
+            padding_y: root.height // 8
+            color: 0.5, 0.9, 1, 1
+
+        TextInput:
+            id: name_input
+            center: self.parent.center
+            font_name: "rsc/dotmatrix.ttf"
+            font_size: root.width // 12 if root.width < root.height else root.height // 12
+            rows: 1
+            width: root.width * 3/4
+            multiline: False
+            background_color: 0, 0, 0, 0
+            foreground_color: 1, 1, 1, 1
+            cursor_color: 0.5, 0.7, 1, 1
+            hint_text_color: 0.7, 0.9, 1, 0.9
+            hint_text: "Name"
+            height: root.width // 10
+
+            # Padding left, right to center text
+            padding_x:
+                [self.center[0] - self._get_text_width(self.text or "Name", self.tab_width, self._label_cached) / 2.0 - root.width // 8, 0]
+
+        Label:
+            font_size: root.width // 10 if root.width < root.height else root.height // 10
+            text: " "
+
 
         BoxLayout:
             orientation: "horizontal"
@@ -34,9 +76,9 @@
                 id: menu_button
                 text: "HOME"
                 command: root.on_menu_clicked
-                font_size: root.height / 12
+                font_size: root.width / 12 if root.width < root.height else root.height / 12
             TextButton:
                 id: restart_button
                 text: "REPLAY"
                 command: root.on_restart_clicked
-                font_size: root.height / 12
+                font_size: root.width / 12 if root.width < root.height else root.height / 12

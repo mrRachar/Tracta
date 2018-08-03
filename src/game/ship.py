@@ -100,8 +100,8 @@ class Ship(SpaceObject):
     health = NumericProperty(3)
     mass = NumericProperty(50)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
     def move(self, dt=1) -> Displacement:
         displacement = self.velocity.to_displacement(dt)

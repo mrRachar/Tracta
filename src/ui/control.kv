@@ -7,6 +7,7 @@
 <MainMenu>:
     play_button: play_button
     about_button: about_button
+
     canvas.before:
         Color:
             rgba: 0, 0.02, 0.1, 1
@@ -43,6 +44,8 @@
 
 <ScoresScreen>:
     back_button: back_button
+    paragraph: scores_para
+
     canvas.before:
         Color:
             rgba: 0, 0.02, 0.1, 1
@@ -78,7 +81,7 @@
                 text: " "
                 size_hint: (0.3, 1)
         Paragraph:
-            text: "Someone: ∞"
+            id: scores_para
             font_name: 'rsc/dotmatrix.ttf'
             font_size: 30
             halign: "center"

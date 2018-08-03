@@ -9,42 +9,28 @@ from kivy.app import App
 
 class AboutScreen(Screen):
     about_text = """
-We do things
-I think
-Lot's of things
-Maybe not
-Who knows
-We could if we wanted I guess
-Lines
-Lines of text
-Lorem Ipsum is for weaklings
-I will write enough lines of text
-They may not be interesting
-(They may though,
-I do doubt it)
-But they will be enough
-And if they aren't
-I'll have to write some more
-Some more text to fill up the lines
+Created by Matthew Ross Rachar 
 
-Anyway, about us:
-We do things
-I think
-Lot's of things
-Maybe not
-Who knows
-We could if we wanted I guess
-Lines
-Lines of text
-Lorem Ipsum is for weaklings
-I will write enough lines of text
-They may not be interesting
-(They may though,
-I do doubt it)
-But they will be enough
-And if they aren't
-I'll have to write some more
-Some more text to fill up the lines
+Programmed by Matthew Ross Rachar
+
+Graphics by Matthew Ross Rachar
+
+with thanks to Ælfi the Cat
+[size=18]He's often sleeping behind me when I solve
+bugs so maybe he's helping?[/size] 
+[size=15][he also sleeps there when I can't so maybe it's nothing][/size]
+
+Programmed in Python 3.6
+[size=18]with many thanks to the Python Software Foundation
+and to the BDFL for his years of service[/size]
+
+Game built with Kivy 1.10.1
+[size=18]with thanks to people over at kivy.org[/size]
+
+Graphics designed in Piskel
+
+Supported By
+[size=22]No one[/size]
     """
 
     def on_back_clicked(self):

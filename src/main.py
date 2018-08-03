@@ -47,6 +47,6 @@ class TractaApp(App):
 
     def show_endgame(self, score):
         self.screen_manager.current = 'endgame'
-        self.screen_manager.get_screen('endgame').score = score
+        self.screen_manager.get_screen('endgame').update(score)
 
 TractaApp().run()
