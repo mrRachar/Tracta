@@ -1,10 +1,6 @@
 #:kivy 1.10.1
-
-<MenuButton>:
-    color: self.font_colour
-    text: self.text
-    font_name: "rsc/dotmatrix.ttf"
-    font_size: root.height
+#:include ../lib/graphics/textbutton.kv
+#:include ../lib/graphics/paragraph.kv
 
 <MainMenu>:
     play_button: play_button
@@ -27,13 +23,102 @@
             padding_y: root.height // 8
         BoxLayout:
             orientation: "vertical"
-            MenuButton:
+            TextButton:
                 id: play_button
                 text: "PLAY"
                 command: root.on_play_clicked
-            MenuButton:
+                font_size: root.height / 12
+            TextButton:
                 id: scores_button
                 text: "SCORES"
-            MenuButton:
+                command: root.on_scores_clicked
+                font_size: root.height / 12
+            TextButton:
                 id: about_button
                 text: "ABOUT"
+                command: root.on_about_clicked
+                font_size: root.height / 12
+
+<ScoresScreen>:
+    back_button: back_button
+    canvas.before:
+        Color:
+            rgba: 0, 0.02, 0.1, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+        Color:
+            rgb: 1, 1, 1
+    BoxLayout:
+        orientation: "vertical"
+        BoxLayout:
+            size_hint: (1, 0.2)
+            padding: 10, 30, 10, 30
+            padding_x: 20
+            padding_y: 40
+            TextButton:
+                id: back_button
+                font_size: 40
+                text: "< Back"
+                command: root.on_back_clicked
+                size_hint: (0.3, 1)
+                valign: "center"
+            Label:
+                text: "Scores"
+                pos: root.height - 90, 50
+                left: self.parent.width / 10
+                top: self.parent.height / 10
+                font_size: 70
+                size_hint: (0.4, 1)
+                font_name: 'rsc/dotmatrix.ttf'
+                valign: "center"
+            Label:
+                text: " "
+                size_hint: (0.3, 1)
+        Paragraph:
+            text: "Someone: ∞"
+            font_name: 'rsc/dotmatrix.ttf'
+            font_size: 30
+            halign: "center"
+
+<AboutScreen>:
+    back_button: back_button
+    canvas.before:
+        Color:
+            rgba: 0, 0.02, 0.1, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+        Color:
+            rgb: 1, 1, 1
+    BoxLayout:
+        orientation: "vertical"
+        BoxLayout:
+            size_hint: (1, 0.2)
+            padding: 10, 30, 10, 30
+            padding_x: 20
+            padding_y: 40
+            TextButton:
+                id: back_button
+                font_size: 40
+                text: "< Back"
+                command: root.on_back_clicked
+                size_hint: (0.3, 1)
+                valign: "center"
+            Label:
+                text: "About"
+                pos: root.height - 90, 50
+                left: self.parent.width / 10
+                top: self.parent.height / 10
+                font_size: 70
+                size_hint: (0.4, 1)
+                font_name: 'rsc/dotmatrix.ttf'
+                valign: "center"
+            Label:
+                text: " "
+                size_hint: (0.3, 1)
+        Paragraph:
+            text: root.about_text
+            font_name: 'rsc/dotmatrix.ttf'
+            font_size: 30
+            halign: "center"

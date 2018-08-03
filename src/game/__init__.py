@@ -86,11 +86,13 @@ class TractaGame(Widget):
 
 class GameScreen(Screen):
     game = None
+    event = None
 
     def start(self):
         self.game = TractaGame()
         self.add_widget(self.game)
-        Clock.schedule_interval(self.game.tick, 1.0/60)
+        self.event = Clock.schedule_interval(self.game.tick, 1.0/60)
 
     def end(self):
         self.remove_widget(self.game)
+        self.event.cancel()
