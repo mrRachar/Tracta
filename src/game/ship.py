@@ -2,7 +2,7 @@ import math as maths
 
 from kivy.clock import Clock
 from kivy.uix.widget import Widget
-from kivy.properties import NumericProperty
+from kivy.properties import NumericProperty, ObjectProperty
 from kivy.graphics.vertex_instructions import Triangle
 
 from lib.geometry import Point, Velocity, Vector, Momentum, Displacement
@@ -108,6 +108,11 @@ class Ship(SpaceObject):
         self.center_x += displacement.x
         self.distance += displacement.y
         return displacement
+
+    def correct_image(self):
+        self.image.texture.mag_filter = 'nearest'
+        self.image.size = self.size
+        self.image.center = self.center
 
     def seek(self, x):
         self.velocity = self.velocity + Velocity((x - self.center_x)/100, 0)

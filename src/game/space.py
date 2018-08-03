@@ -3,6 +3,7 @@ from kivy.uix.widget import Widget
 from kivy.properties import NumericProperty, ColorProperty
 
 from lib.geometry import Point, Velocity, Vector, Momentum, Displacement
+from lib.graphics.scale import Scale
 
 
 class SpaceObject(Widget):
@@ -25,12 +26,14 @@ class Debris(SpaceObject):
     default_colour = 0.6, 0.65, 1, 0.5
     colour = ColorProperty(default_colour)
     destroyed: bool = False
+    mass = NumericProperty(100)
 
     def __init__(self, position: Vector, rotation: int = 0, size: int = 100, **kwargs):
         super().__init__(**kwargs)
         self.center = tuple(position)
         self.rotation = rotation
-        self.size = size
+        self.size = size * Scale.width_factor # Scales to screen size
+        self.mass = size
 
     def highlight(self, colour=(0.8, 0.9, 1, 0.6)):
         self.colour = colour
@@ -45,10 +48,6 @@ class Debris(SpaceObject):
     @position.setter
     def position(self, pos: Point):
         self.center_x, self.center_y = pos
-
-    @property
-    def mass(self):
-        return self.size
 
     def move(self, dt=1, ds=0) -> Displacement:
         displacement = self.velocity.to_displacement(dt)

@@ -1,0 +1,42 @@
+#:kivy 1.10.1
+#:include ../lib/graphics/textbutton.kv
+
+<EndGame>:
+    restart_button: restart_button
+    menu_button: menu_button
+    canvas.before:
+        Color:
+            rgba: 0, 0.02, 0.1, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
+        Color:
+            rgb: 1, 1, 1
+    BoxLayout:
+        orientation: "vertical"
+        padding: root.width / 4, root.height / 4, root.width / 4, root.height / 4
+        Label:
+            text: "Game Over"
+            font_size: root.height // 8
+            font_name: "rsc/dotmatrix.ttf"
+            padding_y: root.height // 8
+            color: 1, 0.5, 0.5, 1
+        Label:
+            text: str(root.score)
+            font_size: root.height // 10
+            font_name: "rsc/dotmatrix.ttf"
+            padding_y: root.height // 8
+            color: 0.5, 1, 0.7, 1
+
+        BoxLayout:
+            orientation: "horizontal"
+            TextButton:
+                id: menu_button
+                text: "HOME"
+                command: root.on_menu_clicked
+                font_size: root.height / 12
+            TextButton:
+                id: restart_button
+                text: "REPLAY"
+                command: root.on_restart_clicked
+                font_size: root.height / 12

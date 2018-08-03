@@ -7,32 +7,33 @@ Builder.load_file('./ui/tracta.kv')
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, FadeTransition
 
-from src.game import GameScreen
+from src.game import GameManager
 from src.game.ship import Ship, Beam
 from src.game.space import Debris
 
 from src.control import MainMenu
 from src.control.about import AboutScreen
 from src.control.scores import ScoresScreen
+from src.control.endgame import EndGame
 
 from lib.graphics.textbutton import  TextButton
 from lib.graphics.paragraph import Paragraph
 
 
-
 class TractaApp(App):
     def build(self):
         self.screen_manager = ScreenManager(transition=FadeTransition())
-        self.screen_manager.add_widget(MainMenu(name="menu"))
-        self.screen_manager.add_widget(GameScreen(name="game"))
-        self.screen_manager.add_widget(ScoresScreen(name="scores"))
-        self.screen_manager.add_widget(AboutScreen(name="about"))
+        self.screen_manager.add_widget(MainMenu(name='menu'))
+        self.screen_manager.add_widget(GameManager(name='game'))
+        self.screen_manager.add_widget(ScoresScreen(name='scores'))
+        self.screen_manager.add_widget(AboutScreen(name='about'))
+        self.screen_manager.add_widget(EndGame(name='endgame'))
         #game.start()
         return self.screen_manager
 
     def play_game(self):
-        self.screen_manager.current = "game"
-        self.screen_manager.get_screen("game").start()
+        self.screen_manager.current = 'game'
+        self.screen_manager.get_screen('game').start()
 
     def show_about(self):
         self.screen_manager.current = 'about'
@@ -43,5 +44,9 @@ class TractaApp(App):
 
     def go_home(self):
         self.screen_manager.current = 'menu'
+
+    def show_endgame(self, score):
+        self.screen_manager.current = 'endgame'
+        self.screen_manager.get_screen('endgame').score = score
 
 TractaApp().run()
