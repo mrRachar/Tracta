@@ -24,7 +24,6 @@ class TractaGame(Widget):
 
         # Generate debris
         self.add_debris(Debris(Point.random(x_range=(0, self.width), y_range=(self.height * 4/5, self.height))))
-        #self.debris[0].highlight()
         for x_range in ((0, self.width * 1/3), (self.width * 2/3, self.width)):
             for _ in range(2):
                 self.add_debris(Debris(Point.random(x_range=x_range, y_range=(0, self.height)), rotation=random.randint(0, 359)))

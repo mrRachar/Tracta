@@ -18,6 +18,8 @@ class _Configuration:
             if score[1] < new_score:
                 self.highscores.insert(i, (name, new_score))
                 break
+        else:
+            self.highscores.append((name, new_score))
         if len(self.highscores) > 10:
             self.highscores = self.highscores[:10]
 
