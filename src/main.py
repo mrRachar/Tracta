@@ -1,8 +1,15 @@
+import os, sys
+
+# Set cwd to root of project (as code paths based around there)
+if os.getcwd().endswith("src"):
+    os.chdir('../')
+    sys.path.append('./')
+
 import kivy
 from kivy.lang import Builder
 
 kivy.require('1.10.1')
-Builder.load_file('./ui/tracta.kv')
+Builder.load_file('src/ui/tracta.kv')
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, FadeTransition
@@ -28,7 +35,7 @@ class TractaApp(App):
         self.screen_manager.add_widget(ScoresScreen(name='scores'))
         self.screen_manager.add_widget(AboutScreen(name='about'))
         self.screen_manager.add_widget(EndGame(name='endgame'))
-        #game.start()
+        self.icon = 'rsc/ship8.ico'
         return self.screen_manager
 
     def play_game(self):
