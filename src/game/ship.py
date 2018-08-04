@@ -13,6 +13,7 @@ class Beam(Widget):
     _refresh_event = None
     bredth = 67
     energy = maths.tau
+    target = None
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -40,7 +41,7 @@ class Beam(Widget):
         if self.triangle not in self.canvas.children:
             self.canvas.add(self.triangle)
 
-    def pull(self, debris, strength=1):
+    def pull(self, debris, strength=1.0):
         displacement = debris.position - self.base
         p_magnitude = maths.sqrt(2*(self.parent.mass+debris.mass)*self.energy) * strength
         momentum = Momentum.from_vector(displacement.fit_unit_circle() * p_magnitude)
@@ -66,7 +67,7 @@ class Beam(Widget):
     @property
     def angle_width(self):
         offset = (self.target - self.base).rotate(-90).fit_unit_circle() * self.bredth
-        return ((self.vector + offset).angle - self.vector.angle) % 360 # abs didn't work because bearings
+        return ((self.vector + offset).angle - self.vector.angle) % 360  # abs didn't work because bearings
 
     def hits(self, debris):
         hits = 0
@@ -118,7 +119,7 @@ class Ship(SpaceObject):
         self.velocity = self.velocity + Velocity((x - self.center_x)/100, 0)
 
     def collides_with(self, debris: Debris):
-        for point in debris.points:
+        for point in debris.target_points:
             if (point - self.middle).length < self.radius:
                 return True
 
