@@ -70,7 +70,7 @@ class Beam(Widget):
 
     def hits(self, debris):
         hits = 0
-        for point in debris.points:
+        for point in debris.target_points:
             displacement = point - self.base
             if self.angle - self.angle_width < displacement.angle < self.angle + self.angle_width \
                     and displacement.length < self.radius:

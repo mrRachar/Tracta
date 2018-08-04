@@ -66,3 +66,11 @@ class Debris(SpaceObject):
                     Point(*point).rotate_about(Point(*self.center), self.rotation)
                     for point in zip(self.canvas.children[3].points[::2], self.canvas.children[3].points[1::2])
         )
+
+    @property
+    def target_points(self):
+        for point, next_point in zip(self.points, list(self.points)[1:]):
+            yield point
+            yield (point + next_point) / 2
+        yield next_point
+        yield (next_point + next(self.points)) / 2
